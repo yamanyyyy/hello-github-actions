@@ -6,6 +6,10 @@ jobs:
   build-n-publish:
     name: Build and publish Python distributions to TestPyPI
     runs-on: ubuntu-latest
+    environment: testpypi  # GitHubの環境名：あとでTestPyPIのTrusted Publisherで登録する名前と合わせる
+    permissions:
+      id-token: write      # Trusted Publishingに必須
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
@@ -19,5 +23,4 @@ jobs:
       - name: Publish distribution to Test PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.TESTPYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
+          repository-url: https://test.pypi.org/legacy/
